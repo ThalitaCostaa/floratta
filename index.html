@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floratta Flowers</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        :root {
+            --primary: #C4A45C;
+            --secondary: #D4B87C;
+            --accent: #E5CD9C;
+            --text: #333;
+            --light: #F3E4DC;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(243, 228, 220, 0.95);
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 8px rgba(196,164,92,0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            height: auto;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo a:hover {
+            text-decoration: underline;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            height: auto;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #C4A45C;
+            text-decoration: none;
+            font-size: 1rem;
+            font-family: sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            transition: color 0.2s, box-shadow 0.2s, border-bottom 0.2s;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        nav a:hover {
+            color: #a88a3e;
+            text-decoration: none;
+        }
+
+        nav a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #a88a3e;
+            transition: width 0.2s;
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            background-image: url('template.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 7rem 2rem 5rem;
+            text-align: center;
+            margin-top: 70px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: sans-serif;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+            font-family: sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+            position: relative;
+            z-index: 2;
+            min-height: 40vh;
+            align-items: center;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            font-family: sans-serif;
+        }
+
+        .products {
+            max-width: 1200px;
+            margin: 4rem auto 0 auto;
+            padding: 2rem 1rem;
+            scroll-margin-top: 100px;
+        }
+
+        .products h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 3rem;
+        }
+
+        .product-img-real {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+
+        .product-info p {
+            font-family: sans-serif;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin: 0.5rem 0;
+            font-family: sans-serif;
+        }
+
+        .product-quantity {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .quantity-btn {
+            background: var(--light);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            margin: 0 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.25rem;
+        }
+
+        .add-to-cart {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            font-family: sans-serif;
+            z-index: 1000;  
+        }
+
+        .add-to-cart:hover {
+            background: var(--secondary);
+        }
+
+        .cart {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: var(--white);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 9999;
+        }
+
+        .cart:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary);
+            color: var(--white);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        /* Modal de entrega */
+        .delivery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 0.75rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .modal-buttons button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+            font-weight: 500;
+        }
+
+        /* Estilização da barra de rolagem */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .confirm-btn {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .confirm-btn:hover {
+            background: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                height: auto;
+                padding: 0.5rem 0;
+            }
+            
+            .header-content {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .logo {
+                margin-bottom: 0.5rem;
+            }
+
+            .logo-img {
+                height: 35px;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .hero {
+                padding: 70px 1rem 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+                padding: 0 0.5rem;
+                margin-bottom: 1rem;
+                line-height: 1.3;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                padding: 0 0.5rem;
+                margin-bottom: 0.5rem;
+                line-height: 1.4;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 2rem auto;
+                padding: 0 1rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .products {
+                padding: 1rem;
+            }
+
+            .products h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .product {
+                margin-bottom: 1rem;
+            }
+
+            .product-image {
+                height: 180px;
+            }
+
+            .product-info {
+                padding: 1rem;
+            }
+
+            .product-info h3 {
+                font-size: 1rem;
+            }
+
+            .product-price {
+                font-size: 1.1rem;
+            }
+
+            .cart {
+                width: 50px;
+                height: 50px;
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .cart i {
+                font-size: 1.2rem;
+            }
+
+            .cart-count {
+                width: 20px;
+                height: 20px;
+                font-size: 0.75rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1rem;
+                margin: 1rem;
+            }
+
+            .modal-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .form-group {
+                margin-bottom: 0.5rem;
+            }
+
+            .form-group label {
+                font-size: 0.85rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 0.4rem;
+                font-size: 0.85rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .modal-buttons button {
+                width: 100%;
+                padding: 0.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0.5rem;
+            }
+
+            .logo-img {
+                height: 30px;
+            }
+
+            nav {
+                gap: 0.3rem;
+            }
+
+            nav a {
+                font-size: 0.75rem;
+                padding: 0.2rem 0.4rem;
+            }
+
+            .hero {
+                padding: 7rem 0.75rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+                padding: 0 0.25rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+                padding: 25px 0.25rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 160px;
+            }
+
+            .product-info h3 {
+                font-size: 0.95rem;
+            }
+
+            .product-price {
+                font-size: 1rem;
+            }
+
+            .quantity-btn {
+                width: 25px;
+                height: 25px;
+            }
+
+            .quantity-input {
+                width: 40px;
+            }
+
+            .add-to-cart {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .cart {
+                width: 45px;
+                height: 45px;
+            }
+
+            .cart i {
+                font-size: 1.1rem;
+            }
+
+            .cart-count {
+                width: 18px;
+                height: 18px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Add smooth scrolling to the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo"><a href="index.html"><img src="logo.png" alt="Floratta Flores" class="logo-img"></a></div>
+            <nav>
+                <a href="#produtos">PRODUTOS</a>
+                <a href="sobre.html">SOBRE NÓS</a>
+                <a href="contato.html">CONTATO</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Presentes únicos para tornar cada momento inesquecível</h1>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <i class="fas fa-truck"></i>
+            <h3>Entrega Rápida</h3>
+            <p>Entregamos em toda a região</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-clock"></i>
+            <h3>Horário de Atendimento</h3>
+            <p>13h30 às 18h00</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-spa"></i>
+            <h3>Produtos Frescos</h3>
+            <p>Qualidade garantida</p>
+        </div>
+    </section>
+
+    <section class="products" id="produtos">
+        <h2>NOSSOS PRODUTOS</h2>
+        <div class="products-grid">
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('KIT ENCANTE', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('KIT ENCANTE', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('KIT ENCANTE', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('KIT ENCANTE', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Abacaxi Pérola', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('KIT ENCANTE', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('KIT ENCANTE', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="produto-floral.png" alt="Produto Floral" class="product-img-real">
+                </div>
+                <div class="product-info">
+                    <h3>KIT ENCANTE</h3>
+                    <p>Flores + Café</p>
+                    <div class="product-price">R$ 89,00</div>
+                    <div class="product-quantity">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('KIT ENCANTE', 89.00)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cart" onclick="showDeliveryModal()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+
+    <div class="delivery-modal" id="deliveryModal">
+        <div class="modal-content">
+            <h2>Dados para Entrega</h2>
+            <form id="deliveryForm">
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="street">Rua</label>
+                    <input type="text" id="street" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label for="number">Número</label>
+                        <input type="text" id="number" required>
+                    </div>
+                    <div class="form-group" style="flex: 3;">
+                        <label for="neighborhood">Bairro</label>
+                        <input type="text" id="neighborhood" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="complement">Complemento (opcional)</label>
+                    <input type="text" id="complement" placeholder="Apartamento, bloco, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="payment">Forma de Pagamento</label>
+                    <select id="payment" required>
+                        <option value="">Selecione a forma de pagamento</option>
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="pix">PIX</option>
+                        <option value="credito">Cartão de Crédito</option>
+                        <option value="debito">Cartão de Débito</option>
+                        <option value="debito">Transferência Bancária</option>
+                    </select>
+                </div>
+                <div class="form-group" id="trocoGroup" style="display: none;">
+                    <label for="troco">Troco para quanto?</label>
+                    <input type="text" id="troco" placeholder="Ex: 50,00">
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-btn" onclick="closeDeliveryModal()">Cancelar</button>
+                    <button type="submit" class="confirm-btn">Confirmar Pedido</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let cartTotal = 0;
+
+        function updateCartCount() {
+            document.querySelector('.cart-count').textContent = cart.length;
+        }
+
+        function addToCart(product, price) {
+            const quantity = parseInt(event.target.parentElement.querySelector('.quantity-input').value);
+            for(let i = 0; i < quantity; i++) {
+                cart.push({name: product, price: price});
+            }
+            cartTotal += price * quantity;
+            updateCartCount();
+            showNotification(`${quantity}x ${product} adicionado ao carrinho!`);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function showDeliveryModal() {
+            if(cart.length === 0) {
+                showNotification("Seu carrinho está vazio!");
+                return;
+            }
+            document.getElementById('deliveryModal').style.display = 'flex';
+        }
+
+        function closeDeliveryModal() {
+            document.getElementById('deliveryModal').style.display = 'none';
+        }
+
+        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const street = document.getElementById('street').value;
+            const number = document.getElementById('number').value;
+            const neighborhood = document.getElementById('neighborhood').value;
+            const complement = document.getElementById('complement').value;
+            const payment = document.getElementById('payment').value;
+            const troco = document.getElementById('troco').value;
+
+            let message = `Olá, gostaria de fazer um pedido:\n\n`;
+            message += `Nome: ${name}\n`;
+            message += `Telefone: ${phone}\n`;
+            message += `Endereço: ${street}, ${number} - ${neighborhood}\n`;
+            if(complement) message += `Complemento: ${complement}\n\n`;
+            message += `Produtos:\n${cart.map(item => `- ${item.name} (R$ ${item.price.toFixed(2)})`).join("\n")}\n\n`;
+            message += `Total: R$ ${cartTotal.toFixed(2)}\n`;
+            message += `Forma de Pagamento: ${getPaymentMethodName(payment)}\n`;
+            if(payment === 'dinheiro' && troco) {
+                message += `Troco para: R$ ${troco}\n`;
+            }
+
+            let phoneNumber = "5547984745653";
+            let url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+            window.open(url, '_blank');
+            
+            closeDeliveryModal();
+            cart = [];
+            cartTotal = 0;
+            updateCartCount();
+        });
+
+        function getPaymentMethodName(method) {
+            const methods = {
+                'dinheiro': 'Dinheiro',
+                'pix': 'PIX',
+                'credito': 'Cartão de Crédito',
+                'debito': 'Cartão de Débito'
+            };
+            return methods[method] || method;
+        }
+
+        // Controle de quantidade
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('.quantity-input');
+                const currentValue = parseInt(input.value);
+                
+                if(this.textContent === '+') {
+                    input.value = currentValue + 1;
+                } else if(currentValue > 1) {
+                    input.value = currentValue - 1;
+                }
+            });
+        });
+
+        // Adicionar listener para o select de pagamento
+        document.getElementById('payment').addEventListener('change', function() {
+            const trocoGroup = document.getElementById('trocoGroup');
+            if (this.value === 'dinheiro') {
+                trocoGroup.style.display = 'block';
+            } else {
+                trocoGroup.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

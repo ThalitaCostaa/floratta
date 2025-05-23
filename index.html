@@ -205,6 +205,7 @@
             color: var(--primary);
             font-family: sans-serif;
             font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .products-grid {
@@ -301,7 +302,7 @@
             font-weight: 500;
             transition: background-color 0.3s;
             font-family: sans-serif;
-            z-index: 1000;  
+            z-index: 1000;
         }
 
         .add-to-cart:hover {
@@ -322,28 +323,29 @@
             justify-content: center;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease-in-out;
             z-index: 9999;
         }
 
         .cart:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .cart-count {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: -8px;
+            right: -8px;
             background: var(--secondary);
             color: var(--white);
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+            font-weight: bold;
         }
 
         /* Modal de entrega */
@@ -354,37 +356,97 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
             align-items: center;
             justify-content: center;
         }
 
         .modal-content {
             background: var(--white);
-            padding: 1.5rem;
-            border-radius: 8px;
+            padding: 2rem;
+            border-radius: 12px;
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
 
         .modal-content h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             color: var(--primary);
             font-family: sans-serif;
             font-weight: 600;
+            text-align: center;
+        }
+
+        #cartItemsList {
+            margin-bottom: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex-grow: 1;
+            margin-right: 1rem;
+        }
+
+        .item-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .item-info p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .remove-item {
+            color: #aaa;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .remove-item:hover {
+            color: #dc3545;
+        }
+
+        .cart-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: right;
+            margin-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 2rem;
         }
 
         .form-group {
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.4rem;
             font-weight: 500;
             font-size: 0.9rem;
             font-family: sans-serif;
@@ -393,31 +455,58 @@
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             font-family: sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            transition: border-color 0.2s ease-in-out;
         }
 
         .form-row {
             display: flex;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
         }
 
         .modal-buttons {
             display: flex;
             justify-content: flex-end;
             gap: 0.75rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .modal-buttons button {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
             font-family: sans-serif;
             font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .cancel-btn {
+            background: #ccc;
+            color: #333;
+        }
+
+        .cancel-btn:hover {
+            background: #bbb;
+        }
+
+        .confirm-btn {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .confirm-btn:hover {
+            background: var(--secondary);
         }
 
         /* Estilização da barra de rolagem */
@@ -439,21 +528,7 @@
             background: var(--secondary);
         }
 
-        .form-group select:focus,
-        .form-group input:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-
-        .confirm-btn {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .confirm-btn:hover {
-            background: var(--secondary);
-        }
-
+        /* Ajustes para mobile */
         @media (max-width: 768px) {
             header {
                 height: auto;
@@ -558,6 +633,7 @@
                 height: 50px;
                 bottom: 1rem;
                 right: 1rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             }
 
             .cart i {
@@ -568,23 +644,56 @@
                 width: 20px;
                 height: 20px;
                 font-size: 0.75rem;
+                top: -5px;
+                right: -5px;
             }
 
             .modal-content {
                 width: 95%;
-                padding: 1rem;
+                padding: 1.5rem;
                 margin: 1rem;
+                border-radius: 10px;
             }
 
             .modal-content h2 {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            #cartItemsList {
+                margin-bottom: 1rem;
+                padding-top: 1rem;
+            }
+
+            .cart-item {
+                padding: 0.6rem 0;
+            }
+
+            .item-info h4 {
+                font-size: 1rem;
+            }
+
+            .item-info p {
+                font-size: 0.9rem;
+            }
+
+            .remove-item {
+                font-size: 1.1rem;
+            }
+
+            .cart-total {
+                font-size: 1.1rem;
+                margin-top: 1rem;
+                padding-bottom: 1rem;
+                margin-bottom: 1.5rem;
             }
 
             .form-group {
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.75rem;
             }
 
             .form-group label {
+                margin-bottom: 0.25rem;
                 font-size: 0.85rem;
             }
 
@@ -592,16 +701,24 @@
             .form-group select {
                 padding: 0.4rem;
                 font-size: 0.85rem;
+                border-radius: 4px;
+            }
+
+            .form-row {
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
             }
 
             .modal-buttons {
                 flex-direction: column;
                 gap: 0.5rem;
+                margin-top: 1rem;
             }
 
             .modal-buttons button {
                 width: 100%;
                 padding: 0.6rem;
+                font-size: 0.9rem;
             }
         }
 
@@ -681,6 +798,68 @@
                 width: 18px;
                 height: 18px;
                 font-size: 0.7rem;
+            }
+
+            .modal-content {
+                padding: 1rem;
+                margin: 0.5rem;
+            }
+
+            .modal-content h2 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+
+            #cartItemsList {
+                margin-bottom: 1rem;
+                padding-top: 0.8rem;
+            }
+
+            .cart-item {
+                padding: 0.5rem 0;
+            }
+
+            .item-info h4 {
+                font-size: 0.95rem;
+            }
+
+            .item-info p {
+                font-size: 0.85rem;
+            }
+
+            .remove-item {
+                font-size: 1rem;
+            }
+
+            .cart-total {
+                font-size: 1rem;
+                margin-top: 1rem;
+                padding-bottom: 0.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 0.5rem;
+            }
+
+            .form-group label {
+                font-size: 0.8rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 0.3rem;
+                font-size: 0.8rem;
+            }
+
+            .form-row {
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .modal-buttons button {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
             }
         }
 
@@ -872,6 +1051,13 @@
 
     <div class="delivery-modal" id="deliveryModal">
         <div class="modal-content">
+            <h2>Seu Carrinho</h2>
+            <div id="cartItemsList">
+                <!-- Itens do carrinho serão listados aqui -->
+            </div>
+            <div class="cart-total">
+                Total: <span id="modalCartTotal">R$ 0,00</span>
+            </div>
             <h2>Dados para Entrega</h2>
             <form id="deliveryForm">
                 <div class="form-group">
@@ -908,7 +1094,7 @@
                         <option value="pix">PIX</option>
                         <option value="credito">Cartão de Crédito</option>
                         <option value="debito">Cartão de Débito</option>
-                        <option value="debito">Transferência Bancária</option>
+                        <option value="transferencia">Transferência Bancária</option>
                     </select>
                 </div>
                 <div class="form-group" id="trocoGroup" style="display: none;">
@@ -952,11 +1138,46 @@
             }, 3000);
         }
 
+        function renderCartItems() {
+            const cartItemsList = document.getElementById('cartItemsList');
+            cartItemsList.innerHTML = ''; // Limpa a lista antes de renderizar
+            let currentTotal = 0;
+
+            cart.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <p>R$ ${item.price.toFixed(2)}</p>
+                    </div>
+                    <span class="remove-item" data-index="${index}">&times;</span>
+                `;
+                cartItemsList.appendChild(itemElement);
+                currentTotal += item.price;
+            });
+
+            document.getElementById('modalCartTotal').textContent = `R$ ${currentTotal.toFixed(2)}`;
+        }
+
+        function removeCartItem(index) {
+            cartTotal -= cart[index].price;
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCartItems(); // Renderiza a lista atualizada
+            showNotification("Item removido do carrinho!");
+             // Atualiza o total no modal caso esteja aberto
+            if (document.getElementById('deliveryModal').style.display === 'flex') {
+                document.getElementById('modalCartTotal').textContent = `R$ ${cartTotal.toFixed(2)}`;
+             }
+        }
+
         function showDeliveryModal() {
             if(cart.length === 0) {
                 showNotification("Seu carrinho está vazio!");
                 return;
             }
+            renderCartItems(); // Renderiza os itens antes de mostrar o modal
             document.getElementById('deliveryModal').style.display = 'flex';
         }
 
@@ -993,7 +1214,7 @@
             window.open(url, '_blank');
             
             closeDeliveryModal();
-            cart = [];
+            cart = []; // Limpa o carrinho após o pedido
             cartTotal = 0;
             updateCartCount();
         });
@@ -1003,7 +1224,8 @@
                 'dinheiro': 'Dinheiro',
                 'pix': 'PIX',
                 'credito': 'Cartão de Crédito',
-                'debito': 'Cartão de Débito'
+                'debito': 'Cartão de Débito',
+                'transferencia': 'Transferência Bancária'
             };
             return methods[method] || method;
         }
@@ -1031,6 +1253,15 @@
                 trocoGroup.style.display = 'none';
             }
         });
+
+        // Adicionar listener para remover item do carrinho (usando delegação de evento)
+        document.getElementById('cartItemsList').addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-item')) {
+                const index = parseInt(e.target.dataset.index);
+                removeCartItem(index);
+            }
+        });
+
     </script>
 </body>
 </html>

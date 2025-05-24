@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Floratta Flowers</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --primary: #C4A45C;
+            --secondary: #D4B87C;
+            --accent: #E5CD9C;
+            --text: #333;
+            --light: #F3E4DC;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .add-product-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .add-product-btn:hover {
+            background: var(--secondary);
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .products-table th {
+            background-color: var(--light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .products-table tr:hover {
+            background-color: var(--light);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .edit-btn {
+            color: var(--primary);
+        }
+
+        .delete-btn {
+            color: #dc3545;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-buttons button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .cancel-btn {
+            background: #ccc;
+            color: var(--text);
+        }
+
+        .save-btn {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .product-image-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin-top: 0.5rem;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .login-form input {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .login-form button {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginContainer" class="login-container">
+        <h1>Login Administrativo</h1>
+        <form id="loginForm" class="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <div id="loginError" class="error-message"></div>
+    </div>
+
+    <div id="adminContainer" class="admin-container" style="display: none;">
+        <div class="admin-header">
+            <h1>Painel Administrativo</h1>
+            <div>
+                <button class="add-product-btn" onclick="openProductModal()">
+                    <i class="fas fa-plus"></i> Novo Produto
+                </button>
+                <button class="add-product-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Imagem</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="productsTableBody">
+                <!-- Products will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Novo Produto</h2>
+                <button class="close-modal" onclick="closeProductModal()">&times;</button>
+            </div>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label for="productName">Nome do Produto</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Descrição</label>
+                    <textarea id="productDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Preço</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="productImage">Imagem</label>
+                    <input type="file" id="productImage" accept="image/*">
+                    <img id="imagePreview" class="product-image-preview" style="display: none;">
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-btn" onclick="closeProductModal()">Cancelar</button>
+                    <button type="submit" class="save-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://ggpdipsjxkbusemsdyfu.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdncGRpcHNqeGtidXNlbXNkeWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwNDY1ODksImV4cCI6MjA2MzYyMjU4OX0.Al33UO6GmDQqxddsUo-IBS6KUswpCph535FEgtqBRF0'
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
+
+        // Check authentication state
+        async function checkAuth() {
+            const { data: { session } } = await supabaseClient.auth.getSession()
+            if (session) {
+                showAdminPanel()
+            } else {
+                showLoginForm()
+            }
+        }
+
+        // Show/hide containers
+        function showAdminPanel() {
+            document.getElementById('loginContainer').style.display = 'none'
+            document.getElementById('adminContainer').style.display = 'block'
+            loadProducts()
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginContainer').style.display = 'block'
+            document.getElementById('adminContainer').style.display = 'none'
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const email = document.getElementById('email').value
+            const password = document.getElementById('password').value
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                })
+
+                if (error) throw error
+
+                showAdminPanel()
+            } catch (error) {
+                document.getElementById('loginError').textContent = error.message
+            }
+        })
+
+        // Load products
+        async function loadProducts() {
+            try {
+                const { data: products, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+
+                if (error) throw error
+
+                const tableBody = document.getElementById('productsTableBody')
+                tableBody.innerHTML = ''
+
+                products.forEach(product => {
+                    const row = document.createElement('tr')
+                    row.innerHTML = `
+                        <td><img src="${product.image_url}" alt="${product.name}" style="max-width: 50px;"></td>
+                        <td>${product.name}</td>
+                        <td>${product.description}</td>
+                        <td>R$ ${product.price.toFixed(2)}</td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editProduct(${product.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteProduct(${product.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `
+                    tableBody.appendChild(row)
+                })
+            } catch (error) {
+                console.error('Error loading products:', error)
+                alert('Erro ao carregar produtos')
+            }
+        }
+
+        // Product modal handlers
+        function openProductModal(productId = null) {
+            const modal = document.getElementById('productModal')
+            const modalTitle = document.getElementById('modalTitle')
+            const form = document.getElementById('productForm')
+            
+            modalTitle.textContent = productId ? 'Editar Produto' : 'Novo Produto'
+            
+            // Only reset form if it's a new product
+            if (!productId) {
+                form.reset()
+                document.getElementById('productId').value = ''
+                document.getElementById('imagePreview').style.display = 'none'
+            }
+            
+            modal.style.display = 'flex'
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none'
+        }
+
+        // Edit product
+        async function editProduct(productId) {
+            try {
+                // Open modal first
+                openProductModal(productId)
+                
+                const { data: product, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .eq('id', productId)
+                    .single()
+
+                if (error) throw error
+
+                // Set form values after modal is open
+                document.getElementById('productId').value = product.id
+                document.getElementById('productName').value = product.name
+                document.getElementById('productDescription').value = product.description
+                document.getElementById('productPrice').value = product.price
+                
+                // Show current image
+                const imagePreview = document.getElementById('imagePreview')
+                if (product.image_url) {
+                    imagePreview.src = product.image_url
+                    imagePreview.style.display = 'block'
+                } else {
+                    imagePreview.style.display = 'none'
+                }
+            } catch (error) {
+                console.error('Error loading product:', error)
+                alert('Erro ao carregar produto')
+                closeProductModal()
+            }
+        }
+
+        // Delete product
+        async function deleteProduct(productId) {
+            if (!confirm('Tem certeza que deseja excluir este produto?')) return
+
+            try {
+                const { error } = await supabaseClient
+                    .from('products')
+                    .delete()
+                    .eq('id', productId)
+
+                if (error) throw error
+
+                loadProducts()
+                alert('Produto excluído com sucesso!')
+            } catch (error) {
+                console.error('Error deleting product:', error)
+                alert('Erro ao excluir produto')
+            }
+        }
+
+        // Image preview
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0]
+            if (file) {
+                const reader = new FileReader()
+                reader.onload = function(e) {
+                    const imagePreview = document.getElementById('imagePreview')
+                    imagePreview.src = e.target.result
+                    imagePreview.style.display = 'block'
+                }
+                reader.readAsDataURL(file)
+            }
+        })
+
+        // Form submission
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            const productId = document.getElementById('productId').value
+            const name = document.getElementById('productName').value
+            const description = document.getElementById('productDescription').value
+            const price = parseFloat(document.getElementById('productPrice').value)
+            const imageFile = document.getElementById('productImage').files[0]
+
+            try {
+                let imageUrl = null
+                if (imageFile) {
+                    const fileExt = imageFile.name.split('.').pop()
+                    const fileName = `${Math.random()}.${fileExt}`
+                    const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                        .from('products')
+                        .upload(fileName, imageFile)
+
+                    if (uploadError) throw uploadError
+
+                    const { data: { publicUrl } } = supabaseClient.storage
+                        .from('products')
+                        .getPublicUrl(fileName)
+
+                    imageUrl = publicUrl
+                }
+
+                const productData = {
+                    name,
+                    description,
+                    price,
+                    ...(imageUrl && { image_url: imageUrl })
+                }
+
+                if (productId) {
+                    const { error } = await supabaseClient
+                        .from('products')
+                        .update(productData)
+                        .eq('id', productId)
+                    
+                    if (error) throw error
+                } else {
+                    const { error } = await supabaseClient
+                        .from('products')
+                        .insert([productData])
+                    
+                    if (error) throw error
+                }
+
+                closeProductModal()
+                loadProducts()
+                alert('Produto salvo com sucesso!')
+            } catch (error) {
+                console.error('Error saving product:', error)
+                alert('Erro ao salvar produto')
+            }
+        })
+
+        // Check auth state on page load
+        checkAuth()
+
+        // Logout function
+        async function logout() {
+            try {
+                const { error } = await supabaseClient.auth.signOut()
+
+                if (error) throw error
+
+                showLoginForm()
+                alert('Você foi desconectado com sucesso.')
+            } catch (error) {
+                console.error('Error logging out:', error)
+                alert('Erro ao sair.')
+            }
+        }
+    </script>
+</body>
+</html> 
